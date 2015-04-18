@@ -79,15 +79,15 @@
   </div>
   <script type="text/javascript">
     window.onload = function() {
-      new SLICSegmentAnnotator('example.jpg', {
+      this.ann = new SLICSegmentAnnotator('example.jpg', {
         regionSize: 40,
         container: document.getElementById('annotator-container'),
         // annotation: 'annotation.png' // optional existing annotation data.
         labels: [
           {name: 'background', color: [255, 255, 255]},
-          'skin',
-          'skirt',
-          'belt'
+          'ground',
+          'vertical',
+          'sky'
           ],
         onload: function() {
           initializeLegend(this);
@@ -240,13 +240,18 @@
             reader.readAsText(file);
           }
         });
+        // document.getElementById('export-button').addEventListener('click', function() {
+        //   var data = {
+        //     labels: annotator.getLabels(),
+        //     annotation: annotator.getAnnotation()
+        //   };
+        //   var dataURL = 'data:application/json;charset=utf-8,' +
+        //                 encodeURIComponent(JSON.stringify(data));
+        //   downloadAsFile(dataURL, 'export.json');
+        // });
         document.getElementById('export-button').addEventListener('click', function() {
-          var data = {
-            labels: annotator.getLabels(),
-            annotation: annotator.getAnnotation()
-          };
-          var dataURL = 'data:application/json;charset=utf-8,' +
-                        encodeURIComponent(JSON.stringify(data));
+          var dataURL = 'data:text/plain;charset=utf-8,' +
+                        encodeURIComponent(JSON.stringify(ann.annotations));
           downloadAsFile(dataURL, 'export.json');
         });
       }
